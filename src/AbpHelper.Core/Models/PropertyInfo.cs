@@ -8,9 +8,12 @@
 
         public string Document { get; set; }
 
-        public PropertyInfo(string type, string name, string document)
+        public bool IsNullable { get; set; }
+
+        public PropertyInfo(string type, bool isNullable, string name, string document)
         {
             Type = type;
+            IsNullable=isNullable;
             Name = name;
             Document = document;
         }

@@ -101,9 +101,14 @@ namespace EasyAbp.AbpHelper.Core.Steps.Abp
                     .JoinAsString(";");
 
                 var properties = root.Descendants<PropertyDeclarationSyntax>()
-                        .Select(prop => new PropertyInfo(prop.Type.ToString(), prop.Identifier.ToString(), prop.GetDocument()))
-                        .ToList()
-                    ;
+                    .Select(prop => 
+                        new PropertyInfo(
+                            prop.Type.ToString(), 
+                            prop.Type is NullableTypeSyntax, 
+                            prop.Identifier.ToString(), 
+                            prop.GetDocument()))
+                    .ToList();
+
                 var entityInfo = new EntityInfo(@namespace, className, baseType, primaryKey, relativeDirectory, entityDescription);
                 entityInfo.Properties.AddRange(properties);
                 if (keyNames != null)

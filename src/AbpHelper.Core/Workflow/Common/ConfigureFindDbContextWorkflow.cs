@@ -19,14 +19,20 @@ namespace EasyAbp.AbpHelper.Core.Workflow.Common
                             ifElse
                                 .When(OutcomeNames.True)
                                 .Then<FileFinderStep>(
-                                    step => { step.SearchFileName = new JavaScriptExpression<string>("`${ProjectInfo.Name}MigrationsDbContext.cs`"); }
+                                    step =>
+                                    {
+                                        step.SearchFileName = new JavaScriptExpression<string>("`${ProjectInfo.Name}MigrationsDbContext.cs`");
+                                    }
                                 )
                                 .Then(nextActivityName)
                             ;
                             ifElse
                                 .When(OutcomeNames.False)
                                 .Then<FileFinderStep>(
-                                    step => { step.SearchFileName = new JavaScriptExpression<string>("`${ProjectInfo.Name}DbContext.cs`"); }
+                                    step =>
+                                    {
+                                        step.SearchFileName = new JavaScriptExpression<string>("`${ProjectInfo.Name}DbContext.cs`");
+                                    }
                                 )
                                 .Then(nextActivityName)
                             ;

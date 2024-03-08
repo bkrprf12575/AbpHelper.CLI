@@ -22,8 +22,7 @@ namespace EasyAbp.AbpHelper.Core.Commands
 {
     public abstract class CommandWithOption<TOption> : CommandBase where TOption : CommandOptionsBase
     {
-        public CommandWithOption(IServiceProvider serviceProvider, string name, string? description = null) : base(
-            serviceProvider, name, description)
+        protected CommandWithOption(IServiceProvider serviceProvider, string name, string? description = null) : base(serviceProvider, name, description)
         {
             Logger = NullLogger<CommandWithOption<TOption>>.Instance;
 

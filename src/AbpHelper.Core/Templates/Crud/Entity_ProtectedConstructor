@@ -1,4 +1,1 @@
 
-    protected {{ EntityInfo.Name }}()
-    {
-    }

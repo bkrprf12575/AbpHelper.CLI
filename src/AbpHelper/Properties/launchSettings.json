@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AbpHelper": {
+      "commandName": "Project",
+      "commandLineArgs": "generate crud DesignCategoryDefinition\r\n--separate-dto\r\n--entity-prefix-dto\r\n--dto-suffix Input\r\n--skip-custom-repository\r\n--skip-db-migrations\r\n--directory C:\\Users\\Administrator\\source\\repos\\temp\\ods-backend\\modules\\mic"
+    }
+  }
+}

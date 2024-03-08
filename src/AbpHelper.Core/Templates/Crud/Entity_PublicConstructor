@@ -1,23 +1,115 @@
+    #region Ctor
 
+    /// <summary>
+    /// {{ EntityInfo.Document }}
+    /// </summary>
+    protected {{ EntityInfo.Name }}()
+    {
+    }
+
+    /// <summary>
+    /// {{ EntityInfo.Document }}
+    /// </summary>
+    {{~ for prop in EntityInfo.Properties ~}}
+    /// <param name="{{ prop.Name | abp.camel_case }}">{{ prop.Document }}</param>
+    {{~ end ~}}
+    /// <returns>{{ EntityInfo.Document }}实例</returns>
     public {{ EntityInfo.Name }}(
-{{~ if EntityInfo.PrimaryKey ~}}
-        {{ EntityInfo.PrimaryKey }} id
-        {{- for prop in EntityInfo.Properties -}}
-        ,
-        {{ prop.Type }} {{ prop.Name | abp.camel_case }}
-        {{- if for.last; "\r\n"; else; ; end -}}
-        {{- end ~}}
+    {{~ if EntityInfo.PrimaryKey ~}}
+        {{ EntityInfo.PrimaryKey }} id{{ if EntityInfo.Properties.size > 0; ","; end }}
+    {{~ end ~}}
+    {{~ for prop in EntityInfo.Properties ~}}
+        {{ prop.Type }}{{ if prop.IsNullable; ""; end }} {{ prop.Name | abp.camel_case }}{{ if prop.IsNullable; " = null"; end }}{{ if for.last | string.contains false; ","; end }}
+    {{~ end ~}}
     ) : base(id)
-{{~ else ~}}
-        {{- for prop in EntityInfo.Properties -}}
-        {{- if for.first; ; else; ",\r\n"; end ~}}
-        {{ prop.Type }} {{ prop.Name | abp.camel_case }}
-        {{- if for.last; "\r\n"; else; ; end -}}
-        {{- end ~}}
-    )
-{{~ end ~}}
     {
         {{~ for prop in EntityInfo.Properties ~}}
-        {{ prop.Name }} = {{ prop.Name | abp.camel_case }};
+        {{- if for.first }}
+        Set{{ prop.Name }}({{ prop.Name | abp.camel_case }})
+        {{- else }}
+        .Set{{ prop.Name }}({{ prop.Name | abp.camel_case }})
+        {{- end ~}}
+        {{- if for.last; ";\n"; end ~}}
         {{~ end ~}}
     }
+
+    #endregion
+
+    #region Method
+
+    {{~ for prop in EntityInfo.Properties }}
+    /// <summary>
+    /// 设置{{ prop.Document }}
+    /// </summary>
+    /// <param name="{{ prop.Name | abp.camel_case }}">{{ prop.Document }}</param>
+    /// <returns>{{ EntityInfo.Document }}实例</returns>
+    public {{ EntityInfo.Name }} Set{{ prop.Name }}({{ prop.Type }} {{ prop.Name | abp.camel_case }})
+    {
+        {{~ if prop.Type | string.contains "string" ~}}
+        {{~ if prop.IsNullable ~}}
+        {{ prop.Name }} = Check.Length({{ prop.Name | abp.camel_case }}, nameof({{ prop.Name | abp.camel_case }}), {{ EntityInfo.Name }}Constants.MaxLength.{{ prop.Name }});
+        {{~ else ~}}
+        {{ prop.Name }} = Check.NotNullOrWhiteSpace({{ prop.Name | abp.camel_case }}, nameof({{ prop.Name | abp.camel_case }}), {{ EntityInfo.Name }}Constants.MaxLength.{{ prop.Name }});
+        {{~ end ~}}
+        {{~ else ~}}
+            {{~ if prop.Type | string.contains "int" ~}}
+                {{~ if prop.IsNullable ~}}
+        if ({{ prop.Name | abp.camel_case }} < {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }})
+        {
+            throw new UserFriendlyException("{{ prop.Document }}不能小于 " + {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }});
+        }
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }} ?? {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }};
+                {{~ else ~}}
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }};
+                {{~ end ~}}
+            {{~ end ~}}
+            {{~ if prop.Type | string.contains "long" ~}}
+                {{~ if prop.IsNullable ~}}
+        if ({{ prop.Name | abp.camel_case }} < {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }})
+        {
+            throw new UserFriendlyException("{{ prop.Document }}不能小于 " + {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }});
+        }
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }} ?? {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }};
+                {{~ else ~}}
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }};
+                {{~ end ~}}
+            {{~ end ~}}
+            {{~ if prop.Type | string.contains "float" ~}}
+                {{~ if prop.IsNullable ~}}
+        if ({{ prop.Name | abp.camel_case }} < {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }})
+        {
+            throw new UserFriendlyException("{{ prop.Document }}不能小于 " + {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }});
+        }
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }} ?? {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }};
+                {{~ else ~}}
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }};
+                {{~ end ~}}
+            {{~ end ~}}
+            {{~ if prop.Type | string.contains "double" ~}}
+                {{~ if prop.IsNullable ~}}
+        if ({{ prop.Name | abp.camel_case }} < {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }})
+        {
+            throw new UserFriendlyException("{{ prop.Document }}不能小于 " + {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }});
+        }
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }} ?? {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }};
+                {{~ else ~}}
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }};
+                {{~ end ~}}
+            {{~ end ~}}
+        {{~ end ~}}
+        {{~ if prop.Type | string.contains "bool" ~}}
+            {{~ if prop.IsNullable ~}}
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }} ?? {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }};
+            {{~ else ~}}
+        {{ prop.Name }} = {{ prop.Name | abp.camel_case }};
+            {{~ end ~}}
+        {{~ end ~}}
+        return this;
+    }
+    {{~ end ~}}
+
+    #endregion
+
+
+
+

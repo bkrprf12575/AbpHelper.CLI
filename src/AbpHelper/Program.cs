@@ -22,21 +22,19 @@ namespace EasyAbp.AbpHelper
                 .CreateLogger();
 
 
-            using (var application = await AbpApplicationFactory.CreateAsync<AbpHelperModule>(options =>
+            using var application = await AbpApplicationFactory.CreateAsync<AbpHelperModule>(options =>
             {
                 options.UseAutofac();
                 options.Services.AddLogging(c => c.AddSerilog());
-            }))
-            {
-                await application.InitializeAsync();
+            });
+            await application.InitializeAsync();
 
-                var parser = new CommandLineBuilder(application.ServiceProvider, "abphelper")
-                    .AddAllRootCommands()
-                    .UseDefaults()
-                    .Build();
+            var parser = new CommandLineBuilder(application.ServiceProvider, "abphelper")
+                .AddAllRootCommands()
+                .UseDefaults()
+                .Build();
 
-                await parser.InvokeAsync(args);
-            }
+            await parser.InvokeAsync(args);
         }
     }
 }
