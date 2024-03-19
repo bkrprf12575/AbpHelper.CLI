@@ -95,7 +95,7 @@ public class {{ EntityInfo.Name }}AppService({{ repositoryType }} repository)
                 {{~ if prop.Type | string.contains "string" ~}}
                 .WhereIf(!input.{{ prop.Name }}.IsNullOrWhiteSpace(), x => x.{{ prop.Name }}.Equals(input.{{ prop.Name }}!))
                 {{~ else ~}}
-                .WhereIf(input.{{ prop.Name }} != null, x => x.{{ prop.Name }} == input.{{ prop.Name }})
+                .WhereIf(input.{{ prop.Name }}.HasValue, x => x.{{ prop.Name }} == input.{{ prop.Name }}!.Value)
                 {{~ end ~}}
         {{~ end ~}}
         ;
