@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using Volo.Abp.Application.Dtos;
 
-namespace {{ EntityInfo.Namespace }}.Dtos;
+namespace {{ EntityInfo.Namespace }};
 
 [Serializable]
 public class {{ EntityInfo.Name }}GetListInput : PagedAndSortedResultRequestDto

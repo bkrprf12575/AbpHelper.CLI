@@ -14,7 +14,10 @@ namespace EasyAbp.AbpHelper.Core.Workflow.Generate.Crud
             return builder
                     /* Add entity property to DbContext class*/
                     .Then<FileFinderStep>(
-                        step => { step.SearchFileName = new JavaScriptExpression<string>("`${ProjectInfo.Name}DbContext.cs`"); })
+                        step =>
+                        {
+                            step.SearchFileName = new JavaScriptExpression<string>("`${ProjectInfo.Name}DbContext.cs`");
+                        })
                     .Then<DbContextClassStep>()
                     .Then<FileModifierStep>()
                     .IfElse(
@@ -25,7 +28,10 @@ namespace EasyAbp.AbpHelper.Core.Workflow.Generate.Crud
                             ifElse
                                 .When(OutcomeNames.True)
                                 .Then<FileFinderStep>(
-                                    step => { step.SearchFileName = new JavaScriptExpression<string>("`I${ProjectInfo.Name}DbContext.cs`"); })
+                                    step =>
+                                    {
+                                        step.SearchFileName = new JavaScriptExpression<string>("`I${ProjectInfo.Name}DbContext.cs`");
+                                    })
                                 .Then<DbContextInterfaceStep>()
                                 .Then<FileModifierStep>()
                                 .Then(ActivityNames.DbContextModel)

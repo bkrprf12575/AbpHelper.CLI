@@ -1,12 +1,15 @@
 using System;
-{{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
-using System.ComponentModel;
+using Volo.Abp.Application.Dtos;
+
+namespace {{ EntityInfo.Namespace }};
+
+{{~ if EntityInfo.Document | !string.whitespace ~}}
+/// <summary>
+/// {{ EntityInfo.Document }}
+/// </summary>
 {{~ end ~}}
-
-namespace {{ EntityInfo.Namespace }}.Dtos;
-
 [Serializable]
-public class {{ DtoInfo.CreateTypeName }}
+public class {{ DtoInfo.ReadTypeName }} : {{ EntityInfo.BaseType | string.replace "AggregateRoot" "Entity"}}Dto{{ if EntityInfo.PrimaryKey }}<{{ EntityInfo.PrimaryKey}}>{{ end }}
 {
     {{~ for prop in EntityInfo.Properties ~}}
     {{~ if prop | abp.is_ignore_property; continue; end ~}}
@@ -15,9 +18,6 @@ public class {{ DtoInfo.CreateTypeName }}
     /// {{ prop.Document }}
     /// </summary>
     {{~ end ~}} 
-    {{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
-    [DisplayName("{{ EntityInfo.Name + prop.Name}}")]
-    {{~ end ~}}
     public {{ prop.Type}} {{ prop.Name }} { get; set; }
     {{~ if !for.last ~}}
 

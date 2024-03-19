@@ -1,3 +1,4 @@
+
     #region Ctor
 
     /// <summary>
@@ -52,7 +53,7 @@
         {{ prop.Name }} = Check.NotNullOrWhiteSpace({{ prop.Name | abp.camel_case }}, nameof({{ prop.Name | abp.camel_case }}), {{ EntityInfo.Name }}Constants.MaxLength.{{ prop.Name }});
         {{~ end ~}}
         {{~ else ~}}
-            {{~ if prop.Type | string.contains "int" ~}}
+        {{~ if prop.Type | string.contains "int" ~}}
                 {{~ if prop.IsNullable ~}}
         if ({{ prop.Name | abp.camel_case }} < {{ EntityInfo.Name }}Constants.DefaultValue.{{ prop.Name }})
         {
@@ -109,7 +110,3 @@
     {{~ end ~}}
 
     #endregion
-
-
-
-

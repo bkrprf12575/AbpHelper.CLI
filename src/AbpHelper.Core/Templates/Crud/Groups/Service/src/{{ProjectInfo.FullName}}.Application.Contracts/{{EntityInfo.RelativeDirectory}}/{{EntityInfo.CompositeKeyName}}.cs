@@ -1,7 +1,7 @@
 {{- SKIP_GENERATE = EntityInfo.CompositeKeyName == null -}}
 using System;
 
-namespace {{ EntityInfo.Namespace }}.Dtos;
+namespace {{ EntityInfo.Namespace }};
 
 {{~ if EntityInfo.Document | !string.whitespace ~}}
 /// <summary>

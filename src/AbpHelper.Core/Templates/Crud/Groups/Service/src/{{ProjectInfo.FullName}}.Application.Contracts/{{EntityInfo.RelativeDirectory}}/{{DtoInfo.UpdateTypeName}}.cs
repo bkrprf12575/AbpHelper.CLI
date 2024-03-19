@@ -1,7 +1,10 @@
+{{- SKIP_GENERATE = DtoInfo.CreateTypeName == DtoInfo.UpdateTypeName -}}
 using System;
-using Volo.Abp.Application.Dtos;
+{{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
+using System.ComponentModel;
+{{~ end ~}}
 
-namespace {{ EntityInfo.Namespace }}.Dtos;
+namespace {{ EntityInfo.Namespace }};
 
 {{~ if EntityInfo.Document | !string.whitespace ~}}
 /// <summary>
@@ -9,7 +12,7 @@ namespace {{ EntityInfo.Namespace }}.Dtos;
 /// </summary>
 {{~ end ~}}
 [Serializable]
-public class {{ DtoInfo.ReadTypeName }} : {{ EntityInfo.BaseType | string.replace "AggregateRoot" "Entity"}}Dto{{ if EntityInfo.PrimaryKey }}<{{ EntityInfo.PrimaryKey}}>{{ end }}
+public class {{ DtoInfo.UpdateTypeName }}
 {
     {{~ for prop in EntityInfo.Properties ~}}
     {{~ if prop | abp.is_ignore_property; continue; end ~}}
@@ -18,6 +21,9 @@ public class {{ DtoInfo.ReadTypeName }} : {{ EntityInfo.BaseType | string.replac
     /// {{ prop.Document }}
     /// </summary>
     {{~ end ~}} 
+    {{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
+    [DisplayName("{{ EntityInfo.Name + prop.Name}}")]
+    {{~ end ~}}    
     public {{ prop.Type}} {{ prop.Name }} { get; set; }
     {{~ if !for.last ~}}
 

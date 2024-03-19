@@ -1,5 +1,4 @@
 using System;
-using {{ EntityInfo.Namespace }}.Dtos;
 {{~ if Option.SkipGetListInputDto ~}}
 using Volo.Abp.Application.Dtos;
 {{~ end ~}}
@@ -19,13 +18,8 @@ end ~}}
 /// {{ EntityInfo.Document }}
 /// </summary>
 {{~ end ~}}
-public interface I{{ EntityInfo.Name }}AppService :
-    ICrudAppService< 
-        {{ DtoInfo.ReadTypeName }}, 
-        {{ EntityInfo.PrimaryKey ?? EntityInfo.CompositeKeyName }}, 
-        {{TGetListInput}},
-        {{ DtoInfo.CreateTypeName }},
-        {{ DtoInfo.UpdateTypeName }}>
+public interface I{{ EntityInfo.Name }}AppService 
+    : ICrudAppService<{{ DtoInfo.ReadTypeName }}, {{ EntityInfo.PrimaryKey ?? EntityInfo.CompositeKeyName }}, {{TGetListInput}}, {{ DtoInfo.CreateTypeName }}, {{ DtoInfo.UpdateTypeName }}>
 {
 
 }

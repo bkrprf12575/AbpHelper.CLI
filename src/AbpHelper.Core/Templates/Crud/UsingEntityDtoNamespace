@@ -1,1 +1,1 @@
-using {{ EntityInfo.Namespace}}.Dtos;
+using {{ EntityInfo.Namespace}};

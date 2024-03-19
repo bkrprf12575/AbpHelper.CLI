@@ -1,18 +1,12 @@
-{{- SKIP_GENERATE = DtoInfo.CreateTypeName == DtoInfo.UpdateTypeName -}}
 using System;
 {{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
 using System.ComponentModel;
 {{~ end ~}}
 
-namespace {{ EntityInfo.Namespace }}.Dtos;
+namespace {{ EntityInfo.Namespace }};
 
-{{~ if EntityInfo.Document | !string.whitespace ~}}
-/// <summary>
-/// {{ EntityInfo.Document }}
-/// </summary>
-{{~ end ~}}
 [Serializable]
-public class {{ DtoInfo.UpdateTypeName }}
+public class {{ DtoInfo.CreateTypeName }}
 {
     {{~ for prop in EntityInfo.Properties ~}}
     {{~ if prop | abp.is_ignore_property; continue; end ~}}
@@ -23,7 +17,7 @@ public class {{ DtoInfo.UpdateTypeName }}
     {{~ end ~}} 
     {{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
     [DisplayName("{{ EntityInfo.Name + prop.Name}}")]
-    {{~ end ~}}    
+    {{~ end ~}}
     public {{ prop.Type}} {{ prop.Name }} { get; set; }
     {{~ if !for.last ~}}
 

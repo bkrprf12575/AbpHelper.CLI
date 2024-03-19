@@ -16,9 +16,9 @@ namespace EasyAbp.AbpHelper.Core.Steps.Abp.ModificationCreatorSteps.CSharp
         protected override IList<ModificationBuilder<CSharpSyntaxNode>> CreateModifications(WorkflowExecutionContext context, CompilationUnitSyntax rootUnit)
         {
             var model = context.GetVariable<object>("Model");
-            string entityUsingText = context.GetVariable<string>("EntityUsingText");
-            string templateDir = context.GetVariable<string>(VariableNames.TemplateDirectory);
-            string dbContextPropertyText = TextGenerator.GenerateByTemplateName(templateDir, "DbContextClass_Property", model);
+            var entityUsingText = context.GetVariable<string>("EntityUsingText");
+            var templateDir = context.GetVariable<string>(VariableNames.TemplateDirectory);
+            var dbContextPropertyText = TextGenerator.GenerateByTemplateName(templateDir, "DbContextClass_Property", model);
 
             return new List<ModificationBuilder<CSharpSyntaxNode>>
             {
