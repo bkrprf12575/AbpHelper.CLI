@@ -15,7 +15,7 @@ using Xunit;
 
 namespace {{ ProjectInfo.FullName }}.EntityFrameworkCore.{{ EntityInfo.RelativeNamespace}};
 
-public class {{ EntityInfo.Name }}RepositoryTests : {{ ProjectInfo.Name }}EntityFrameworkCoreTestBase
+public sealed class {{ EntityInfo.Name }}RepositoryTests : {{ ProjectInfo.Name }}EntityFrameworkCoreTestBase
 {
     private readonly {{ repository }} _{{ EntityInfo.Name | abp.camel_case }}Repository;
 
@@ -23,19 +23,4 @@ public class {{ EntityInfo.Name }}RepositoryTests : {{ ProjectInfo.Name }}Entity
     {
         _{{ EntityInfo.Name | abp.camel_case }}Repository = GetRequiredService<{{ repository }}>();
     }
-
-    /*
-    [Fact]
-    public async Task Test1()
-    {
-        await WithUnitOfWorkAsync(async () =>
-        {
-            // Arrange
-
-            // Act
-
-            //Assert
-        });
-    }
-    */
 }

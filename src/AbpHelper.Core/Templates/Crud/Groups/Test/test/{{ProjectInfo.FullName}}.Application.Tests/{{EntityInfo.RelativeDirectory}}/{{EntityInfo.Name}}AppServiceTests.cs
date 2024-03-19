@@ -4,7 +4,7 @@ using Xunit;
 
 namespace {{ EntityInfo.Namespace }};
 
-public class {{ EntityInfo.Name }}AppServiceTests : {{ ProjectInfo.Name }}ApplicationTestBase
+public sealed class {{ EntityInfo.Name }}AppServiceTests : {{ ProjectInfo.Name }}ApplicationTestBase<{{ ProjectInfo.Name }}ApplicationTestModule>
 {
     private readonly I{{ EntityInfo.Name }}AppService _{{ EntityInfo.Name | abp.camel_case }}AppService;
 
@@ -12,17 +12,5 @@ public class {{ EntityInfo.Name }}AppServiceTests : {{ ProjectInfo.Name }}Applic
     {
         _{{ EntityInfo.Name | abp.camel_case }}AppService = GetRequiredService<I{{ EntityInfo.Name }}AppService>();
     }
-
-    /*
-    [Fact]
-    public async Task Test1()
-    {
-        // Arrange
-
-        // Act
-
-        // Assert
-    }
-    */
 }
 
