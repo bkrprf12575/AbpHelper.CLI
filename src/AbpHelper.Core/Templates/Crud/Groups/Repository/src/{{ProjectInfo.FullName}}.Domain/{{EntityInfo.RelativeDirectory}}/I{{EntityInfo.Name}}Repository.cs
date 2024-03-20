@@ -12,7 +12,7 @@ namespace {{ EntityInfo.Namespace }};
 
 {{~ if EntityInfo.Document | !string.whitespace ~}}
 /// <summary>
-/// {{ EntityInfo.Document }}
+/// 【{{ EntityInfo.Document }}】仓储
 /// </summary>
 {{~ end ~}}
 public interface I{{ EntityInfo.Name }}Repository : {{ repository }}

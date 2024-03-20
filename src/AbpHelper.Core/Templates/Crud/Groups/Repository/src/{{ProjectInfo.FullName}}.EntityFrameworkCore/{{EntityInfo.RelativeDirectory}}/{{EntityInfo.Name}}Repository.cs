@@ -21,6 +21,11 @@ namespace {{ EntityInfo.Namespace }};
         primaryKeyText = ", " + EntityInfo.PrimaryKey
     end
 ~}}
+{{~ if EntityInfo.Document | !string.whitespace ~}}
+/// <summary>
+/// 【{{ EntityInfo.Document }}】仓储
+/// </summary>
+{{~ end ~}}
 public class {{ EntityInfo.Name }}Repository : EfCoreRepository<{{ dbContextName }}, {{ EntityInfo.Name }}{{ primaryKeyText }}>, I{{ EntityInfo.Name }}Repository
 {
     public {{ EntityInfo.Name }}Repository(IDbContextProvider<{{ dbContextName }}> dbContextProvider) : base(dbContextProvider)

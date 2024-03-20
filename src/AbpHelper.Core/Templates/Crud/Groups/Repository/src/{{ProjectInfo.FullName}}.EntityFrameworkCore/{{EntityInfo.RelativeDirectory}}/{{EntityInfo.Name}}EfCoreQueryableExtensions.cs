@@ -5,7 +5,7 @@ namespace {{ EntityInfo.Namespace }};
 
 {{~ if EntityInfo.Document | !string.whitespace ~}}
 /// <summary>
-/// {{ EntityInfo.Document }}
+/// 【{{ EntityInfo.Document }}】查询扩展
 /// </summary>
 {{~ end ~}}
 public static class {{ EntityInfo.Name }}EfCoreQueryableExtensions
@@ -18,7 +18,6 @@ public static class {{ EntityInfo.Name }}EfCoreQueryableExtensions
         }
 
         return queryable
-            // .Include(x => x.xxx) // TODO: AbpHelper generated
             ;
     }
 }
