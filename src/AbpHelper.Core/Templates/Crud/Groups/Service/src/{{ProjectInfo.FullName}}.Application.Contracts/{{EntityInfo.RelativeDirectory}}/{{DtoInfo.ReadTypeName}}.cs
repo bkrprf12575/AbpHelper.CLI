@@ -1,11 +1,13 @@
 using System;
 using Volo.Abp.Application.Dtos;
 
+#pragma warning disable CS8618 
+
 namespace {{ EntityInfo.Namespace }};
 
 {{~ if EntityInfo.Document | !string.whitespace ~}}
 /// <summary>
-/// {{ EntityInfo.Document }}
+/// 【{{ EntityInfo.Document }}】信息
 /// </summary>
 {{~ end ~}}
 [Serializable]

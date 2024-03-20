@@ -3,6 +3,7 @@ using System;
 {{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
 using System.ComponentModel;
 {{~ end ~}}
+using System.ComponentModel.DataAnnotations;
 
 namespace {{ EntityInfo.Namespace }};
 
@@ -24,6 +25,10 @@ public class {{ DtoInfo.UpdateTypeName }}
     {{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
     [DisplayName("{{ EntityInfo.Name + prop.Name}}")]
     {{~ end ~}}    
+    {{~ if prop.IsNullable == false ~}}
+    [Required]
+    {{~ end ~}}
+    [StringLength({{ EntityInfo.Name }}Constants.MaxLength.{{ prop.Name }})]
     public {{ prop.Type}} {{ prop.Name }} { get; set; }
     {{~ if !for.last ~}}
 
