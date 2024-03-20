@@ -45,6 +45,7 @@ namespace EasyAbp.AbpHelper.Core.Commands.Generate.Crud
                 .Then<EntityParserStep>()
                 .Then<BuildDtoInfoStep>()
                 .Then<SetModelVariableStep>()
+                .AddEntityConstantsGenerationWorkflow()
                 .Then<IfElse>(
                     step => step.ConditionExpression = new JavaScriptExpression<bool>($"{OptionVariableName}.{nameof(CrudCommandOption.SkipEntityConstructors)}"),
                     ifElse =>
@@ -56,7 +57,7 @@ namespace EasyAbp.AbpHelper.Core.Commands.Generate.Crud
                         ifElse.When(OutcomeNames.True)
                             .Then("EntityUsing")
                             ;
-                    })
+                    }).WithName("EntityConstructors")
                 .AddEntityUsingGenerationWorkflow("EntityUsing")
                 .AddEfCoreConfigurationWorkflow()
                 .Then<IfElse>(

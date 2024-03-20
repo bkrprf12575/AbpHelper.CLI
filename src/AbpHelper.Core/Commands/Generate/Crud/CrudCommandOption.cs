@@ -52,5 +52,8 @@ This argument takes effect only if '--skip-db-migrations' is NOT specified.";
 
         [Option("skip-entity-constructors", Description = "Skip generating constructors for the entity")]
         public bool SkipEntityConstructors { get; set; }
+
+        [Option("skip-entity-constants", Description = "Skip generating constants for the entity")]
+        public bool SkipEntityConstants { get; set; }
     }
 }
