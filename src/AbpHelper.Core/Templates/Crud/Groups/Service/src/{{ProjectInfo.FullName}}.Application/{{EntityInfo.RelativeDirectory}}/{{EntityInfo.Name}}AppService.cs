@@ -19,6 +19,7 @@ end ~}}
 {{~ if EntityInfo.CompositeKeyName || !Option.SkipGetListInputDto~}}
 using System.Linq;
 using System.Threading.Tasks;
+using Arim.Infrastructure.Inputs;
 {{~ end -}}
 {{~ if !Option.SkipPermissions
     permissionNamesPrefix = ProjectInfo.Name + "Permissions." + EntityInfo.Name
@@ -44,7 +45,7 @@ end ~}}
 
 {{~ if EntityInfo.Document | !string.whitespace ~}}
 /// <summary>
-/// ��{{ EntityInfo.Document }}��Ӧ�÷���  
+/// 【{{ EntityInfo.Document }}】应用服务  
 /// </summary>
 {{~ end ~}}
 public class {{ EntityInfo.Name }}AppService({{ repositoryType }} repository)
@@ -86,17 +87,37 @@ public class {{ EntityInfo.Name }}AppService({{ repositoryType }} repository)
     }
     {{~ end ~}}
 
+    /// <summary>
+    /// 删除【{{ EntityInfo.Document }}】信息（批量）
+    /// </summary>
+    /// <param name="input">批量删除信息</param>
+    public async Task DeleteManyAsync(BulkDeleteInput<Guid> input)
+    {
+        // 检查删除权限
+        await CheckDeletePolicyAsync();
+
+        // 删除{{ EntityInfo.Document }}信息
+        await repository.DeleteManyAsync(input.Items);
+    }
+
     {{~ if !Option.SkipGetListInputDto ~}}
+    /// <summary>
+    /// 创建查询过滤条件
+    /// </summary>
+    /// <param name="input">查询参数</param>
+    /// <returns>查询语句</returns>
     protected override async Task<IQueryable<{{ EntityInfo.Name }}>> CreateFilteredQueryAsync({{ EntityInfo.Name }}GetListInput input)
     {
         return (await base.CreateFilteredQueryAsync(input))
         {{~ for prop in EntityInfo.Properties ~}}
             {{~ if (prop | abp.is_ignore_property) ; continue; end ~}}
                 {{~ if prop.Type | string.contains "string" ~}}
-                .WhereIf(!input.{{ prop.Name }}.IsNullOrWhiteSpace(), x => x.{{ prop.Name }}.Equals(input.{{ prop.Name }}!))
+                .WhereIf(!input.{{ prop.Name }}.IsNullOrWhiteSpace(), x => x.{{ prop.Name }} == input.{{ prop.Name }}!)
+                .WhereIf(!input.{{ prop.Name }}Contain.IsNullOrWhiteSpace(), x => x.{{ prop.Name }} != null && x.{{ prop.Name }}.Contains(input.{{ prop.Name }}Contain!))
                 {{~ else ~}}
                 .WhereIf(input.{{ prop.Name }}.HasValue, x => x.{{ prop.Name }} == input.{{ prop.Name }}!.Value)
                 {{~ end ~}}
+
         {{~ end ~}}
         ;
     }
