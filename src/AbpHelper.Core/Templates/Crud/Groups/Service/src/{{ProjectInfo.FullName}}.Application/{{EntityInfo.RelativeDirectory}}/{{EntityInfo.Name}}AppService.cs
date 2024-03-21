@@ -42,14 +42,13 @@ namespace {{ EntityInfo.Namespace }};
     else
         TGetListInput = "PagedAndSortedResultRequestDto"
 end ~}}
-
 {{~ if EntityInfo.Document | !string.whitespace ~}}
 /// <summary>
 /// 【{{ EntityInfo.Document }}】应用服务  
 /// </summary>
 {{~ end ~}}
-public class {{ EntityInfo.Name }}AppService({{ repositoryType }} repository)
-    : {{ crudClassName }}<{{ EntityInfo.Name }}, {{ DtoInfo.ReadTypeName }}, {{ EntityInfo.PrimaryKey ?? EntityInfo.CompositeKeyName }}, {{TGetListInput}}, {{ DtoInfo.CreateTypeName }}, {{ DtoInfo.UpdateTypeName }}>(repository),
+public class {{ EntityInfo.Name }}AppService({{ repositoryType }} {{ EntityInfo.Name | abp.camel_case }}Repository)
+    : {{ crudClassName }}<{{ EntityInfo.Name }}, {{ DtoInfo.ReadTypeName }}, {{ EntityInfo.PrimaryKey ?? EntityInfo.CompositeKeyName }}, {{TGetListInput}}, {{ DtoInfo.CreateTypeName }}, {{ DtoInfo.UpdateTypeName }}>({{ EntityInfo.Name | abp.camel_case }}Repository),
         I{{ EntityInfo.Name }}AppService
 {
     {{~ if !Option.SkipPermissions ~}}
@@ -97,7 +96,7 @@ public class {{ EntityInfo.Name }}AppService({{ repositoryType }} repository)
         await CheckDeletePolicyAsync();
 
         // 删除{{ EntityInfo.Document }}信息
-        await repository.DeleteManyAsync(input.Items);
+        await {{ EntityInfo.Name | abp.camel_case }}Repository.DeleteManyAsync(input.Items);
     }
 
     {{~ if !Option.SkipGetListInputDto ~}}
