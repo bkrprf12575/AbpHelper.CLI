@@ -10,26 +10,8 @@
 {{end}}
 {{~ if ProjectInfo.TemplateType == "Application" ~}}
 
-        builder.Entity<{{ EntityInfo.Name }}>(b =>
-        {
-            b.ToTable({{ ProjectInfo.Name }}Consts.DbTablePrefix + nameof({{ EntityInfo.Name }}), {{ ProjectInfo.Name }}Consts.DbSchema{{- if EntityInfo.Document | !string.whitespace; ", table => table.HasComment(\""+ EntityInfo.Document +"\")"; end}});
-            b.ConfigureByConvention(); 
-            {{ configCompositeKey }}
-            // Properties
-            {{~ for prop in EntityInfo.Properties ~}}
-            b.Property(x => x.{{ prop.Name }}){{~ if prop.IsNullable ~}}.IsRequired(false){{~ else ~}}.IsRequired(){{~ end ~}}{{~ if prop.Type == "string" || prop.Type == "string?" ~}}.HasMaxLength({{ EntityInfo.Name }}Constants.MaxLength.{{ prop.Name }}){{~ end ~}}.HasComment("{{ prop.Document }}");
-            {{~ end ~}}
-        });
+        builder.Configure{{ EntityInfo.Name }}();
 {{~ else if ProjectInfo.TemplateType == "Module" ~}}
 
-        builder.Entity<{{ EntityInfo.Name }}>(b =>
-        {
-            b.ToTable({{ ProjectInfo.Name }}DbProperties.DbTablePrefix + nameof({{ EntityInfo.Name }}), {{ ProjectInfo.Name }}DbProperties.DbSchema{{- if EntityInfo.Document | !string.whitespace; ", table => table.HasComment(\""+ EntityInfo.Document +"\")"; end}});
-            b.ConfigureByConvention(); 
-            {{ configCompositeKey }}
-            // 属性
-            {{~ for prop in EntityInfo.Properties ~}}
-            b.Property(x => x.{{ prop.Name }}){{~ if prop.IsNullable ~}}.IsRequired(false){{~ else ~}}.IsRequired(){{~ end ~}}{{~ if prop.Type == "string" || prop.Type == "string?" ~}}.HasMaxLength({{ EntityInfo.Name }}Constants.MaxLength.{{ prop.Name }}){{~ end ~}}.HasComment("{{ prop.Document }}");
-            {{~ end ~}}
-        });
+        builder.Configure{{ EntityInfo.Name }}();
 {{~ end ~}}

@@ -7,6 +7,7 @@ end
 ~}}
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using {{ ProjectInfo.FullName }}.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
@@ -26,14 +27,32 @@ namespace {{ EntityInfo.Namespace }};
 /// 【{{ EntityInfo.Document }}】仓储
 /// </summary>
 {{~ end ~}}
-public class {{ EntityInfo.Name }}Repository : EfCoreRepository<{{ dbContextName }}, {{ EntityInfo.Name }}{{ primaryKeyText }}>, I{{ EntityInfo.Name }}Repository
+public class {{ EntityInfo.Name }}(IDbContextProvider<{{ dbContextName }}> dbContextProvider)
+    : EfCoreRepository<{{ dbContextName }}, {{ EntityInfo.Name }}{{ primaryKeyText }}>(dbContextProvider), 
+        I{{ EntityInfo.Name }}Repository
 {
-    public {{ EntityInfo.Name }}Repository(IDbContextProvider<{{ dbContextName }}> dbContextProvider) : base(dbContextProvider)
-    {
-    }
-
     public override async Task<IQueryable<{{ EntityInfo.Name }}>> WithDetailsAsync()
     {
         return (await GetQueryableAsync()).IncludeDetails();
+    }
+
+    public override async Task<{{ EntityInfo.Name }}> GetAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = new())
+    {
+        var entity = await FindAsync(id, includeDetails, GetCancellationToken(cancellationToken));
+        return entity switch
+        {
+            null => throw new {{ EntityInfo.Name }}NotFoundException(id),
+            _ => entity
+        };
+    }
+
+    public new async Task<{{ EntityInfo.Name }}> GetAsync(bool includeDetails = true, CancellationToken cancellationToken = new())
+    {
+        var entity = await FindAsync(includeDetails, GetCancellationToken(cancellationToken));
+        return entity switch
+        {
+            null => throw new {{ EntityInfo.Name }}NotFoundException(),
+        _ => entity
+        };
     }
 }

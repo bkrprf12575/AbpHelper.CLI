@@ -2,9 +2,11 @@
 
 namespace {{ EntityInfo.Namespace }};
 
+{{~ if EntityInfo.Document | !string.whitespace ~}}
 /// <summary>
 /// 【{{ EntityInfo.Document }}】常量
 /// </summary>
+{{~ end ~}}
 public static class {{ EntityInfo.Name }}Constants
 {
     /// <summary>
