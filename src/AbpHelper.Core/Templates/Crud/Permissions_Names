@@ -1,3 +1,4 @@
+
 {{~ if EntityInfo.Document | !string.whitespace ~}}
     /// <summary>
     /// {{ EntityInfo.Document }}

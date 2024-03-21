@@ -4,4 +4,4 @@
     /// {{ EntityInfo.Document }}
     /// </summary>
 {{~ end ~}}
-    DbSet<{{ EntityInfo.Name }}> {{ EntityInfo.NamePluralized }} { get; set; }
+    public DbSet<{{ EntityInfo.Name }}> {{ EntityInfo.NamePluralized }} { get; set; }
