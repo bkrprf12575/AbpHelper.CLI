@@ -47,7 +47,9 @@ end ~}}
 /// 【{{ EntityInfo.Document }}】应用服务  
 /// </summary>
 {{~ end ~}}
-public class {{ EntityInfo.Name }}AppService({{ repositoryType }} {{ EntityInfo.Name | abp.camel_case }}Repository)
+public class {{ EntityInfo.Name }}AppService(
+    {{ repositoryType }} {{ EntityInfo.Name | abp.camel_case }}Repository,
+    I{{ EntityInfo.Name }}Manager {{ EntityInfo.Name | abp.camel_case }}Manager)
     : {{ crudClassName }}<{{ EntityInfo.Name }}, {{ DtoInfo.ReadTypeName }}, {{ EntityInfo.PrimaryKey ?? EntityInfo.CompositeKeyName }}, {{TGetListInput}}, {{ DtoInfo.CreateTypeName }}, {{ DtoInfo.UpdateTypeName }}>({{ EntityInfo.Name | abp.camel_case }}Repository),
         I{{ EntityInfo.Name }}AppService
 {
@@ -58,7 +60,6 @@ public class {{ EntityInfo.Name }}AppService({{ repositoryType }} {{ EntityInfo.
     protected override string UpdatePolicyName { get; set; } = {{ permissionNamesPrefix }}.Update;
     protected override string DeletePolicyName { get; set; } = {{ permissionNamesPrefix }}.Delete;
     {{~ end ~}}
-
     {{~ if EntityInfo.CompositeKeyName ~}}
 
     protected override Task DeleteByIdAsync({{ EntityInfo.CompositeKeyName }} id)
@@ -85,6 +86,32 @@ public class {{ EntityInfo.Name }}AppService({{ repositoryType }} {{ EntityInfo.
         return query.OrderBy(e => e.{{ EntityInfo.CompositeKeys[0].Name }});
     }
     {{~ end ~}}
+
+    {{~ if EntityInfo.Document | !string.whitespace ~}}
+    /// <summary>
+    /// 创建【{{ EntityInfo.Document }}】信息
+    /// <param name="input">{{ EntityInfo.Document }}信息</param>
+    /// </summary>
+    /// <returns>{{ EntityInfo.Document }}实例</returns>
+    {{~ end ~}}
+    public override async Task<{{ EntityInfo.Name }}Dto> CreateAsync({{ EntityInfo.Name }}CreateInput input)
+    {
+        // 检查创建权限
+        await CheckCreatePolicyAsync();
+
+        // 创建{{ EntityInfo.Document }}
+        var {{ EntityInfo.Name | abp.camel_case }} = await {{ EntityInfo.Name | abp.camel_case }}Manager.CreateAsync(
+            {{~ for prop in EntityInfo.Properties ~}} 
+            input.{{ prop.Name }}{{ if for.last | string.contains false; ","; end }}
+            {{~ end ~}}
+            );
+
+        // 保存{{ EntityInfo.Document }}
+        await {{ EntityInfo.Name | abp.camel_case }}Repository.InsertAsync({{ EntityInfo.Name | abp.camel_case }});
+
+        // 返回{{ EntityInfo.Document }}信息
+        return await MapToGetOutputDtoAsync({{ EntityInfo.Name | abp.camel_case }});
+    }
 
     /// <summary>
     /// 删除【{{ EntityInfo.Document }}】信息（批量）
