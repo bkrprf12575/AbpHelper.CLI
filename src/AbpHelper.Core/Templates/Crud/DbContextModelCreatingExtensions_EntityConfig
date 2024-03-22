@@ -9,9 +9,7 @@
 {{~ end ~}}
 {{end}}
 {{~ if ProjectInfo.TemplateType == "Application" ~}}
-
         builder.Configure{{ EntityInfo.Name }}();
 {{~ else if ProjectInfo.TemplateType == "Module" ~}}
-
         builder.Configure{{ EntityInfo.Name }}();
 {{~ end ~}}

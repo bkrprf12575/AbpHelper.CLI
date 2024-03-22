@@ -7,6 +7,7 @@ end
 ~}}
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using {{ ProjectInfo.FullName }}.EntityFrameworkCore;
@@ -27,7 +28,7 @@ namespace {{ EntityInfo.Namespace }};
 /// 【{{ EntityInfo.Document }}】仓储
 /// </summary>
 {{~ end ~}}
-public class {{ EntityInfo.Name }}(IDbContextProvider<{{ dbContextName }}> dbContextProvider)
+public class {{ EntityInfo.Name }}Repository(IDbContextProvider<{{ dbContextName }}> dbContextProvider)
     : EfCoreRepository<{{ dbContextName }}, {{ EntityInfo.Name }}{{ primaryKeyText }}>(dbContextProvider), 
         I{{ EntityInfo.Name }}Repository
 {
@@ -46,9 +47,9 @@ public class {{ EntityInfo.Name }}(IDbContextProvider<{{ dbContextName }}> dbCon
         };
     }
 
-    public new async Task<{{ EntityInfo.Name }}> GetAsync(bool includeDetails = true, CancellationToken cancellationToken = new())
+    public new async Task<{{ EntityInfo.Name }}> GetAsync(Expression<Func<{{ EntityInfo.Name }}, bool>> predicate, bool includeDetails = true, CancellationToken cancellationToken = new())
     {
-        var entity = await FindAsync(includeDetails, GetCancellationToken(cancellationToken));
+        var entity = await FindAsync(predicate, includeDetails, GetCancellationToken(cancellationToken));
         return entity switch
         {
             null => throw new {{ EntityInfo.Name }}NotFoundException(),
