@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using {{ ProjectInfo.FullName }}.EntityFrameworkCore;
+using {{ EntityInfo.Namespace }}.Exceptions;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
