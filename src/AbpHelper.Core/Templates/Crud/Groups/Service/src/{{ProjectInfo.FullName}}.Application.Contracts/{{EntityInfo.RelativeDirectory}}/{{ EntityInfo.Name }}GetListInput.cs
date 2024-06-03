@@ -23,7 +23,9 @@ public class {{ EntityInfo.Name }}GetListInput : PagedAndSortedResultRequestDto
     {{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
     [DisplayName("{{ EntityInfo.Name + prop.Name}}")]
     {{~ end ~}}
+    {{~ if string.starts_with prop.Type "string" ~}}
     [StringLength({{ EntityInfo.Name }}Constants.MaxLength.{{ prop.Name }})]
+    {{~ end ~}}
     public {{ prop.Type}}{{- if !string.ends_with prop.Type "?"; "?"; end}} {{ prop.Name }} { get; set; }
 
     {{~ if prop.Type | string.contains "string" ~}}
@@ -35,7 +37,9 @@ public class {{ EntityInfo.Name }}GetListInput : PagedAndSortedResultRequestDto
     {{~ if !Option.SkipLocalization && Option.SkipViewModel ~}}
     [DisplayName("{{ EntityInfo.Name + prop.Name}}")]
     {{~ end ~}}    
+    {{~ if string.starts_with prop.Type "string" ~}}
     [StringLength({{ EntityInfo.Name }}Constants.MaxLength.{{ prop.Name }})]
+    {{~ end ~}}
     public {{ prop.Type}}{{- if !string.ends_with prop.Type "?"; "?"; end}} {{ prop.Name }}Contain { get; set; }
     {{~ if !for.last ~}}
     {{~ end ~}}

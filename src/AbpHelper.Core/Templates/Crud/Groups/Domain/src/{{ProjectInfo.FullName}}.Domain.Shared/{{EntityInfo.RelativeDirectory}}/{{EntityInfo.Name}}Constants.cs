@@ -42,7 +42,9 @@ public static class {{ EntityInfo.Name }}Constants
         /// 【{{ prop.Document }}】的最大长度限制
         /// </summary>
         {{~ end ~}}
+        {{~ if string.starts_with prop.Type "string" ~}}
         public const int {{ prop.Name }} = ArimConstants.StringLength.Default;
+        {{~ end ~}}
         {{~ if !for.last ~}}
 
         {{~ end ~}}

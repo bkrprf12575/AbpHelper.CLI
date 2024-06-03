@@ -2,7 +2,7 @@
   "profiles": {
     "AbpHelper": {
       "commandName": "Project",
-      "commandLineArgs": "generate crud SaleOrderItemProperty\r\n--separate-dto\r\n--entity-prefix-dto\r\n--dto-suffix Input\r\n--skip-db-migrations\r\n--directory C:\\Users\\Administrator\\source\\repos\\ods-backend\\modules\\dressing"
+      "commandLineArgs": "generate crud DressingOrder\r\n--separate-dto\r\n--entity-prefix-dto\r\n--dto-suffix Input\r\n--skip-db-migrations\r\n--directory C:\\Users\\Administrator\\source\\repos\\ods-backend\\modules\\dressing"
     }
   }
 }

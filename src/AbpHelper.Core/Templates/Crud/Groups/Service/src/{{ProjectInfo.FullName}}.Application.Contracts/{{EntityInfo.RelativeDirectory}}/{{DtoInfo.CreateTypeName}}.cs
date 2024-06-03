@@ -22,7 +22,9 @@ public class {{ DtoInfo.CreateTypeName }}
     {{~ if prop.IsNullable == false ~}}
     [Required]
     {{~ end ~}}
+    {{~ if string.starts_with prop.Type "string" ~}}
     [StringLength({{ EntityInfo.Name }}Constants.MaxLength.{{ prop.Name }})]
+    {{~ end ~}}
     public {{ prop.Type}} {{ prop.Name }} { get; set; }
     {{~ if !for.last ~}}
 
