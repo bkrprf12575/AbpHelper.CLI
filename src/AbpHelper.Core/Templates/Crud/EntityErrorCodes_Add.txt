@@ -1,0 +1,25 @@
+    /// <summary>
+    /// 【{{ EntityInfo.Document }}】
+    /// </summary>
+    public class {{ EntityInfo.Name }}
+    {
+        /// <summary>
+        /// {{ EntityInfo.Document }}已经存在
+        /// </summary>
+        public const string AlreadyExistCode = "{{ ProjectInfo.Name }}:{{ EntityInfo.Name }}:AlreadyExist";
+
+        /// <summary>
+        ///  {{ EntityInfo.Document }}不存在
+        /// </summary>
+        public const string NotFoundCode = "{{ ProjectInfo.Name }}:{{ EntityInfo.Name }}:NotFound";
+
+        /// <summary>
+        ///  {{ EntityInfo.Document }}（父项）不存在
+        /// </summary>
+        public const string ParentNotFound = "{{ ProjectInfo.Name }}:{{ EntityInfo.Name }}:ParentNotFound";
+
+        /// <summary>
+        ///  {{ EntityInfo.Document }}的编号不能修改
+        /// </summary>
+        public const string NoImmutableCode = "{{ ProjectInfo.Name }}:{{ EntityInfo.Name }}:NoImmutable";
+    }

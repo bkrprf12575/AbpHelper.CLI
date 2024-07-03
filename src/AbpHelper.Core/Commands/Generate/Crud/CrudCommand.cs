@@ -67,6 +67,8 @@ namespace EasyAbp.AbpHelper.Core.Commands.Generate.Crud
                         ifElse
                             .When(OutcomeNames.False)
                             .AddCustomRepositoryGeneration()
+                            .AddEntityErrorCodesGenerationWorkflow()
+
                             .Then("ServiceGeneration")
                             ;
                         ifElse

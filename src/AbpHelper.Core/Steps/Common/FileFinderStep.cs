@@ -43,6 +43,11 @@ namespace EasyAbp.AbpHelper.Core.Steps.Common
             var errorIfNotFound = await context.EvaluateAsync(ErrorIfNotFound, cancellationToken);
             LogInput(() => errorIfNotFound);
 
+            if (searchFileName.Contains("TracingErrorCodes"))
+            {
+                
+            }
+
             var files = SearchFilesInDirectory(baseDirectory, searchFileName, excludeDirectories);
 
             var filePathName = files.SingleOrDefault();
